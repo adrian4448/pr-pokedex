@@ -1,4 +1,4 @@
-function sendRequest(configs) {
+async function sendRequest(configs) {
     return new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest;
         xhr.open('GET', configs.url, true);
@@ -13,21 +13,30 @@ function sendRequest(configs) {
     });
 }
 
-function createContent() {
-    sendRequest({ url: 'https://pokeapi.co/api/v2/pokemon?limit=151' }).then(response => {
+async function createContent() {
+    const pokemonsContent = await getContent();
+    
+    for(var i = 0; i < pokemonsContent.length; i++) {    
+        const card = await createCard(pokemonsContent[i], i)
+        card.classList.add('animate__backInUp');
+        document.querySelector('.content-conteiner').appendChild(card);
+    }
+}
+
+function getContent() {
+    return this.sendRequest({ url: 'https://pokeapi.co/api/v2/pokemon?limit=151' }).then(response => {
         const pokemonsContent = JSON.parse(response).results;    
-        pokemonsContent.forEach( (pokemonContent, index) => {
-            const card = createCard(pokemonContent, index);
-            card.classList.add('animate__backInUp');
-            document.querySelector('.content-conteiner').appendChild(card);
-        });
+        return pokemonsContent;
     });
 }
 
-function createCard(pokemonContent, index) {
+async function createCard(pokemonContent, index) {
     const conteiner = createFlipperConteiner();
     const frontCard = createFrontCard(pokemonContent, index);
-    conteiner.firstElementChild.appendChild(frontCard);
+    await createBackCard(pokemonContent).then(backCard => {
+        conteiner.firstElementChild.appendChild(frontCard);
+        conteiner.firstElementChild.appendChild(backCard);
+    });
     return conteiner;
 }
 
@@ -47,6 +56,14 @@ function createFrontCard(pokemonContent, index) {
     return frontCard;
 }
 
+async function createBackCard(pokemonContent) {   
+    const backCard = this.createConteiner('card-back');
+    await this.createBackCardContent(pokemonContent).then(backCardContent => {
+        backCard.appendChild(backCardContent);
+    });
+    return backCard;
+}
+
 function createFrontCardContent(pokemonContent, index) {
     const frontCardContent = this.createConteiner('front-card-content');
     const pokemonName = document.createElement('h2');
@@ -59,6 +76,17 @@ function createFrontCardContent(pokemonContent, index) {
     return frontCardContent;
 }
 
+async function createBackCardContent(pokemonContent) {
+    const backCardContent = this.createConteiner('back-card-content');
+    await this.sendRequest({ url: pokemonContent.url }).then(response => {
+        responseContent = JSON.parse(response);
+        const abilityConteiner = this.createStatsContainer(responseContent.stats);
+        backCardContent.appendChild(abilityConteiner);
+    });
+    
+    return backCardContent;
+}
+
 function createImageContainer(index) {
     const imageContainer = this.createConteiner('image-container');
     const image = document.createElement('img');
@@ -66,6 +94,33 @@ function createImageContainer(index) {
     
     imageContainer.appendChild(image);
     return imageContainer;
+}
+
+function createStatsContainer(statsContent) {
+    const statsConteiner = this.createConteiner('status-conteiner');
+    const stats = document.createElement('ul');
+    statsContent.forEach(st => {
+        const statConteiner = createStatConteiner(st);
+        stats.appendChild(statConteiner);
+        statsConteiner.appendChild(stats);
+    });
+    return statsConteiner;
+}
+
+function createStatConteiner(status) {
+    const statConteiner = this.createConteiner('stat-conteiner');
+    
+    const stat = document.createElement('li');
+    stat.innerHTML = status.stat.name;
+    
+    const statBar = document.createElement('progress');
+    statBar.setAttribute('value', status.base_stat);
+    statBar.setAttribute('max', 200);
+    
+    statConteiner.appendChild(stat);
+    statConteiner.appendChild(statBar);
+
+    return statConteiner;
 }
 
 function createConteiner(cssClass) {
