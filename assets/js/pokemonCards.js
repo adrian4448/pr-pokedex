@@ -1,5 +1,5 @@
-async function sendRequest(configs) {
-    return new Promise((resolve,reject) => {
+function sendRequest(configs) {
+    return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest;
         xhr.open('GET', configs.url, true);
         xhr.onload = e => {
@@ -13,11 +13,12 @@ async function sendRequest(configs) {
     });
 }
 
-async function createContent() {
+async function createPokemonCardsContent() {
+    document.querySelector('.content-conteiner').innerHTML = '';
     const pokemonsContent = await getContent();
     
     for(var i = 0; i < pokemonsContent.length; i++) {    
-        const card = await createCard(pokemonsContent[i], i)
+        const card = await createPokemonCard(pokemonsContent[i], i)
         card.classList.add('animate__backInUp');
         document.querySelector('.content-conteiner').appendChild(card);
     }
@@ -30,7 +31,7 @@ function getContent() {
     });
 }
 
-async function createCard(pokemonContent, index) {
+async function createPokemonCard(pokemonContent, index) {
     const conteiner = createFlipperConteiner();
     const frontCard = createFrontCard(pokemonContent, index);
     await createBackCard(pokemonContent).then(backCard => {

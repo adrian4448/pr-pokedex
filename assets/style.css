@@ -94,6 +94,15 @@ body {
     box-shadow: 1px 1px 5px rgb(0, 0, 5);
 }
 
+.item-card {
+    width: 25%;
+    height: 100%;
+    margin: 2%;
+    background-color: rgb(250, 112, 94);
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgb(0, 0, 5);
+}
+
 .card-back{
 	transform: rotateY(180deg);
 }

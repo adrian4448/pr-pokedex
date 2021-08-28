@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>PokePedia</title>
 </head>
-<body onload="createContent()">
+<body onload="createPokemonCardsContent()">
     <div class="header-conteiner animate__animated animate__backInLeft">
         <div class="header-content">
             <h1>PokePedia</h1>
             <ul>
-                <li>Pokemons</li>
-                <li>Moves</li>
-                <li>Items</li>
+                <li onclick="createPokemonCardsContent()">Pokemons</li>
+                <li onclick="createItemCardsContent()">Items</li>
             </ul>
         </div>
     </div>
@@ -24,6 +23,7 @@
     </div>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/itemsCards.js"></script>
+    <script src="assets/js/pokemonCards.js"></script>
 </body>
 </html>
