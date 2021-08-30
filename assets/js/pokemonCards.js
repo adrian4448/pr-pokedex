@@ -19,6 +19,7 @@ async function createPokemonCardsContent() {
     
     for(var i = 0; i < pokemonsContent.length; i++) {    
         const card = await createPokemonCard(pokemonsContent[i], i)
+        card.classList.add('animate__animated');
         card.classList.add('animate__backInUp');
         document.querySelector('.content-conteiner').appendChild(card);
     }

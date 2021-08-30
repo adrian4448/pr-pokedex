@@ -1,47 +1,39 @@
-function sendRequest(configs) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest;
-        xhr.open('GET', configs.url);
-
-        xhr.onload = resp => {
-            if(xhr.status == 200) {
-                resolve(xhr.response)
-            }else {
-                reject('Ocorreu um erro ao enviar a requisição');
-            }
-        }
-        xhr.send();
-    });
-}
-
 function createItemCardsContent() {
     document.querySelector('.content-conteiner').innerHTML = '';
-    this.sendRequest({ url: "https://pokeapi.co/api/v2/item/" }).then(response => {
+    this.sendRequest({ url: "https://pokeapi.co/api/v2/item" }).then(response => {
         const items = JSON.parse(response);
-        items.results.forEach(item => {
-            const card = createItemCard(item);
-            document.querySelector('.content-conteiner').appendChild(card);
-        })
+        items.results.forEach((item,index) => {
+            this.sendRequest({ url: `https://pokeapi.co/api/v2/item/${index}`}).then(itemData => {
+                const card = createItemCard(item, JSON.parse(itemData));
+                card.classList.add('animate__animated');
+                card.classList.add('animate__backInUp');
+                document.querySelector('.content-conteiner').appendChild(card);
+            });
+        });
     });
 }
 
-function createItemCard(itemContent) {
+function createItemCard(item, itemData) {
     const card = createConteiner('item-card');
-    const frontCardContent = createItemFrontCardContent(itemContent);
+    const frontCardContent = createItemFrontCardContent(item, itemData);
 
     card.appendChild(frontCardContent);
     return card;
 }
 
-function createItemFrontCardContent(itemContent) {
+function createItemFrontCardContent(item, itemData) {
     const frontCardContent = this.createConteiner('front-card-content');
     const itemName = document.createElement('h2');
-    itemName.innerHTML = itemContent.name;   
-    const imageContainer = createItemImageContainer(itemContent.name);
-    
+    itemName.innerHTML = item.name;
+    const imageContainer = createItemImageContainer(item.name);
+
+    const itemDescription = createConteiner('item-description');
+    itemDescription.innerHTML = itemData.effect_entries[0].effect;
+
     frontCardContent.appendChild(itemName);
     frontCardContent.appendChild(imageContainer);
-
+    frontCardContent.appendChild(itemDescription);
+    
     return frontCardContent;
 }
 

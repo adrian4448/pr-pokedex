@@ -101,6 +101,19 @@ body {
     background-color: rgb(250, 112, 94);
     border-radius: 5px;
     box-shadow: 1px 1px 5px rgb(0, 0, 5);
+    transition: 0.5s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-card:hover {
+    width: 35%;
+    height: 110%;
+    transition: 0.5s;
+}
+
+.item-description {
+    font-weight: 40%;
 }
 
 .card-back{
@@ -127,7 +140,7 @@ body {
 }
 
 .image-conteiner {
-    margin: 5%;
+    margin: 10%;
 }
 
 .image-conteiner img {
