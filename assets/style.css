@@ -20,6 +20,7 @@ body {
 .header-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     font-family: sans-serif;
     font-size: 15px;
     font-weight: bold;
@@ -54,6 +55,20 @@ body {
     transition: 0.5s;
 }
 
+.header-content select {
+    padding: 1%;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: rgb(255, 83, 83);
+}
+
+.header-content select:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
+
 .content-conteiner {
     display: flex;
     justify-content: space-between;
@@ -78,9 +93,6 @@ body {
 
 .flip-conteiner:hover .flipper{
 	transform: rotateY(180deg);
-	/* se quiser uma animação na vertical,
-	troque por rotateX(180deg)
-	*/
 }
 
 .card-front, .card-back {

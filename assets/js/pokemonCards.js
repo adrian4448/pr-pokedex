@@ -1,3 +1,10 @@
+const generationClause = {
+    First_Generation: 'offset=0&limit=151',
+    Second_Generation: 'offset=151&limit=100',
+    Third_Generation: 'offset=251&limit=135', 
+    Fourth_Generation: 'offset=386&limit=107',
+}
+
 function sendRequest(configs) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest;
@@ -13,28 +20,28 @@ function sendRequest(configs) {
     });
 }
 
-async function createPokemonCardsContent() {
+async function createPokemonCardsContent(generationSelected) {
     document.querySelector('.content-conteiner').innerHTML = '';
-    const pokemonsContent = await getContent();
+    const pokemonsContent = await getContent(generationSelected);
     
     for(var i = 0; i < pokemonsContent.length; i++) {    
-        const card = await createPokemonCard(pokemonsContent[i], i)
+        const card = await createPokemonCard(pokemonsContent[i], i, generationSelected)
         card.classList.add('animate__animated');
         card.classList.add('animate__backInUp');
         document.querySelector('.content-conteiner').appendChild(card);
     }
 }
 
-function getContent() {
-    return this.sendRequest({ url: 'https://pokeapi.co/api/v2/pokemon?limit=151' }).then(response => {
+function getContent(generationSelected) {
+    return this.sendRequest({ url: `https://pokeapi.co/api/v2/pokemon?${generationClause[generationSelected.replace(' ', '_')]}` }).then(response => {
         const pokemonsContent = JSON.parse(response).results;    
         return pokemonsContent;
     });
 }
 
-async function createPokemonCard(pokemonContent, index) {
+async function createPokemonCard(pokemonContent, index, generationSelected) {
     const conteiner = createFlipperConteiner();
-    const frontCard = createFrontCard(pokemonContent, index);
+    const frontCard = createFrontCard(pokemonContent, generationPokeNumberStart(generationSelected) + index);
     await createBackCard(pokemonContent).then(backCard => {
         conteiner.firstElementChild.appendChild(frontCard);
         conteiner.firstElementChild.appendChild(backCard);
@@ -129,4 +136,13 @@ function createConteiner(cssClass) {
     const conteiner = document.createElement('div');
     conteiner.classList.add(cssClass);
     return conteiner;
+}
+
+function generationPokeNumberStart(generationSelected) {
+    switch(generationSelected) {
+        case 'First Generation': return 0;
+        case 'Second Generation': return 151;
+        case 'Third Generation': return 251;
+        case 'Fourth Generation': return 386;
+    }
 }

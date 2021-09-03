@@ -8,14 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>PokePedia</title>
 </head>
-<body onload="createPokemonCardsContent()">
+<body onload="createPokemonCardsContent(document.querySelector('select').selectedOptions[0].value)">
     <div class="header-conteiner animate__animated animate__backInLeft">
         <div class="header-content">
-            <h1>PokePedia</h1>
             <ul>
-                <li onclick="createPokemonCardsContent()">Pokemons</li>
-                <li onclick="createItemCardsContent()">Items</li>
+                <h1>PokePedia</h1>
+                <li onclick="createPokemonCardsContent(document.querySelector('select').selectedOptions[0].value)">Pokemons</li>
+                <li onclick="createItemCardsContent()">Itens</li>
             </ul>
+            <select>
+                <option>First Generation</option>
+                <option>Second Generation</option>
+                <option>Third Generation</option>
+                <option>Fourth Generation</option>
+            </select>
         </div>
     </div>
     <div class="content-conteiner animate__animated animate__backInUp">
