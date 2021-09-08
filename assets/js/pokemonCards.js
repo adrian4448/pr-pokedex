@@ -21,6 +21,7 @@ function sendRequest(configs) {
 }
 
 async function createPokemonCardsContent(generationSelected) {
+    openLoader();
     document.querySelector('.content-conteiner').innerHTML = '';
     const pokemonsContent = await getContent(generationSelected);
     
@@ -30,6 +31,7 @@ async function createPokemonCardsContent(generationSelected) {
         card.classList.add('animate__backInUp');
         document.querySelector('.content-conteiner').appendChild(card);
     }
+    closeLoader();
 }
 
 function getContent(generationSelected) {
@@ -132,12 +134,6 @@ function createStatConteiner(status) {
     return statConteiner;
 }
 
-function createConteiner(cssClass) {
-    const conteiner = document.createElement('div');
-    conteiner.classList.add(cssClass);
-    return conteiner;
-}
-
 function generationPokeNumberStart(generationSelected) {
     switch(generationSelected) {
         case 'First Generation': return 0;
@@ -145,4 +141,26 @@ function generationPokeNumberStart(generationSelected) {
         case 'Third Generation': return 251;
         case 'Fourth Generation': return 386;
     }
+}
+
+function openLoader() {
+    const body = document.querySelector('body');
+    const contentConteiner = document.querySelector('.content-conteiner');
+    const loader = createConteiner('loader');
+    contentConteiner.style.display = 'none';
+    body.appendChild(loader);   
+}
+
+function closeLoader() {
+    const body = document.querySelector('body');
+    const loader = document.querySelector('.loader');
+    const contentConteiner = document.querySelector('.content-conteiner');
+    contentConteiner.style.display = 'flex';
+    body.removeChild(loader);
+}
+
+function createConteiner(cssClass) {
+    const conteiner = document.createElement('div');
+    conteiner.classList.add(cssClass);
+    return conteiner;
 }

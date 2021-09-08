@@ -187,3 +187,22 @@ body {
     margin-right: 2%;
     color: green;
 }
+
+.loader {
+    position: relative;
+    top: 200px;
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #22a6b3;
+    border-radius: 50%;
+    width: 20vw;
+    height: 20vw;
+    margin-bottom: 100px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }

@@ -1,6 +1,7 @@
 function createItemCardsContent() {
     document.querySelector('.content-conteiner').innerHTML = '';
-    this.sendRequest({ url: "https://pokeapi.co/api/v2/item?limit=100" }).then(response => {
+    openLoader();
+    return this.sendRequest({ url: "https://pokeapi.co/api/v2/item?limit=100" }).then(response => {
         const items = JSON.parse(response);
         items.results.forEach((item,index) => {
             this.sendRequest({ url: `https://pokeapi.co/api/v2/item/${index}`}).then(itemData => {
@@ -10,6 +11,7 @@ function createItemCardsContent() {
                 document.querySelector('.content-conteiner').appendChild(card);
             });
         });
+    closeLoader();    
     });
 }
 
