@@ -80,9 +80,11 @@ function createFrontCardContent(pokemonContent, index) {
     const pokemonName = document.createElement('h2');
     pokemonName.innerHTML = pokemonContent.name;   
     const imageContainer = createImageContainer(index);
-    
+    const cardNumberConteiner = createCardNumberConteiner(index + 1); 
+
     frontCardContent.appendChild(pokemonName);
     frontCardContent.appendChild(imageContainer);
+    frontCardContent.appendChild(cardNumberConteiner);
 
     return frontCardContent;
 }
@@ -132,6 +134,13 @@ function createStatConteiner(status) {
     statConteiner.appendChild(statBar);
 
     return statConteiner;
+}
+
+function createCardNumberConteiner(pokemonNumber) {
+    const cardNumberContainer = createConteiner('card-number-conteiner');
+    cardNumberContainer.innerHTML = pokemonNumber;
+
+    return cardNumberContainer;
 }
 
 function generationPokeNumberStart(generationSelected) {
